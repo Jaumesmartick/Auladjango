@@ -40,7 +40,7 @@ export class Students extends Component {
                             <td>{student.surname}</td>
                             <td>{student.id_school}</td>
                             <td>{student.id_grade}</td>
-                            <td>{student.id_tutor}</td>
+                            <td>{student.tutor}</td>
                             <td>{student.log_code}</td>
                             <td><button
                                      onClick={this.props.deleteStudent.bind

@@ -1,6 +1,10 @@
 ## Webpack:
     Comprime todo en un mismo archivo para que sea posible ejectuarlo (main.js)
 
+## Knox:
+    La extensión se encarga de gestionar los tokens producidos al registrar un usuario y los manda en el header
+        para que la aplicación muestre/habilite todas las funciones/pantallas asociadas a los credenciales del
+        usuario registrado.
 
 ## React
     #React-DOM: Es el responsable de mostrar nuestra aplicación en el navegador como un objeto modelo.
@@ -38,6 +42,11 @@
     ## student/url.py
         # Router: Crea un punto final donde se van a realizar las solicitudes CRUD
 
+    ## accounts/api.py
+        # RegisterAPI
+            API diseñada para el registro de los usuarios,
+            Response devuelve los datos del usuario y un token creado particularmente para cada usuario
+
 
 #### JS FILES
 
@@ -55,6 +64,8 @@
     Este archivo almacena las variables constantes con los strings de las acciones que se van a analizar/ejecutar
     sobre la app students (App.js)
 
+## layout/alerts.js
+    Este archivo gestiona los mensajes de error enviados por el navegador y los introduce como alerta en pantalla
 
 
 #### JSON FILES

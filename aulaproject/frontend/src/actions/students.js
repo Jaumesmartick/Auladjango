@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { GET_STUDENTS, DELETE_STUDENT, ADD_STUDENT } from './types';
+import { createMessage, returnErrors } from './messages'
 
 
 // GET STUDENTS
@@ -12,7 +13,7 @@ export const getStudents = () => dispatch => {
             payload: res.data
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => dispatch(returnErrors( err.response.data, err.response.status)));
 };
 
 
@@ -21,6 +22,7 @@ export const getStudents = () => dispatch => {
 export const deleteStudent = id => dispatch => {
     axios.delete(`/api/students/${id}`)
         .then(res => {
+            dispatch(createMessage({ deleteStudent: "Estudiante eliminado" }));
             dispatch({
             type: DELETE_STUDENT,
             payload: id
@@ -35,10 +37,11 @@ export const addStudent = student => dispatch => {
     axios
         .post('/api/students/', student)
             .then(res => {
+                dispatch(createMessage({ addStudent: "Estudiante añadido" }));
                 dispatch({
                 type: ADD_STUDENT,
                 payload: res.data
                 });
             })
-        .catch(err => console.log(err));
+        .catch(err => dispatch(returnErrors( err.response.data, err.response.status)));
 };

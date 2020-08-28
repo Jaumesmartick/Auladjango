@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addStudent } from '../../actions/students'
+import { addStudent } from '../../actions/students';
 
 
 export class Form extends Component {
@@ -12,7 +12,7 @@ export class Form extends Component {
         surname: '',
         id_school: '',
         id_grade: '',
-        id_tutor: '',
+        tutor: '',
         log_code: ''
     };
 
@@ -24,17 +24,36 @@ export class Form extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        const { id, name, surname, id_school, id_grade, id_tutor, log_code } = this.state;
-        const student = { id, name, surname, id_school, id_grade, id_tutor, log_code };
+        const { id, name, surname, id_school, id_grade, tutor, log_code } = this.state;
+        const student = { id, name, surname, id_school, id_grade, tutor, log_code };
         this.props.addStudent(student);
+        this.setState({
+                    id: "",
+                    name: "",
+                    surname: "",
+                    id_school: "",
+                    id_grade: "",
+                    tutor: "",
+                    log_code: ""
+        });
     }
 
     render(){
-     const { id, name, surname, id_school, id_grade, id_tutor, log_code } = this.state;
+     const { id, name, surname, id_school, id_grade, tutor, log_code } = this.state;
         return(
         <div className="card card-body mt-4 mb-4">
                 <h2>Añadir estudiante</h2>
                 <form onSubmit={this.onSubmit}>
+                <div className="form-group">
+                    <label>ID</label>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="id"
+                      onChange={this.onChange}
+                      value={id}
+                    />
+                  </div>
                   <div className="form-group">
                     <label>Nombre</label>
                     <input
@@ -69,9 +88,9 @@ export class Form extends Component {
                     <textarea
                       className="form-control"
                       type="text"
-                      name="id_tutor"
+                      name="tutor"
                       onChange={this.onChange}
-                      value={id_tutor}
+                      value={tutor}
                     />
                   </div>
                   <div className="form-group">

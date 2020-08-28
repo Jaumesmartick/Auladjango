@@ -5,8 +5,16 @@ from .serializers import StudentSerializer
 
 #Student Viewset (endpoint to make requests)
 class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
     permission_classes = [
-        permissions.AllowAny
+        permissions.IsAuthenticated
     ]
+
     serializer_class = StudentSerializer
+
+    def get_queryset(self):
+        return self.request.user.students.all()
+
+    def perform_create(self, serializer):
+        serializer.save(tutor=self.request.user)
+
+
