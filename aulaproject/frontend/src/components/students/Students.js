@@ -38,8 +38,8 @@ export class Students extends Component {
                             <td>{student.id}</td>
                             <td>{student.name}</td>
                             <td>{student.surname}</td>
-                            <td>{student.id_school}</td>
-                            <td>{student.id_grade}</td>
+                            <td>{student.school}</td>
+                            <td>{student.grade}</td>
                             <td>{student.tutor}</td>
                             <td>{student.log_code}</td>
                             <td><button

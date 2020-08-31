@@ -10,8 +10,8 @@ export class Form extends Component {
         id: '',
         name: '',
         surname: '',
-        id_school: '',
-        id_grade: '',
+        school: '',
+        grade: '',
         tutor: '',
         log_code: ''
     };
@@ -24,22 +24,22 @@ export class Form extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        const { id, name, surname, id_school, id_grade, tutor, log_code } = this.state;
-        const student = { id, name, surname, id_school, id_grade, tutor, log_code };
+        const { id, name, surname, school, grade, tutor, log_code } = this.state;
+        const student = { id, name, surname, school, grade, tutor, log_code };
         this.props.addStudent(student);
         this.setState({
                     id: "",
                     name: "",
                     surname: "",
-                    id_school: "",
-                    id_grade: "",
+                    school: "",
+                    grade: "",
                     tutor: "",
                     log_code: ""
         });
     }
 
     render(){
-     const { id, name, surname, id_school, id_grade, tutor, log_code } = this.state;
+     const { id, name, surname, school, grade, tutor, log_code } = this.state;
         return(
         <div className="card card-body mt-4 mb-4">
                 <h2>Añadir estudiante</h2>
@@ -79,9 +79,9 @@ export class Form extends Component {
                     <textarea
                       className="form-control"
                       type="text"
-                      name="id_school"
+                      name="school"
                       onChange={this.onChange}
-                      value={id_school}
+                      value={school}
                     />
                   </div> <div className="form-group">
                     <label>Tutor</label>
@@ -98,9 +98,9 @@ export class Form extends Component {
                     <textarea
                       className="form-control"
                       type="text"
-                      name="id_grade"
+                      name="grade"
                       onChange={this.onChange}
-                      value={id_grade}
+                      value={grade}
                     />
                   </div><div className="form-group">
                     <label>Código</label>

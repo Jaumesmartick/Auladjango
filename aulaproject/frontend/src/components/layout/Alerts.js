@@ -18,13 +18,17 @@ export class Alerts extends Component {
                 alert.error(`Nombre: ${error.msg.name.join()}`); //Join to convert from array to string
            if(error.msg.surname)
                 alert.error(`Apellido: ${error.msg.surname.join()}`);
-        if(message !== prevProps.message){
-            if(message.deleteStudent)
-             alert.success(message.deleteStudent);
-            if(message.addStudent)
-             alert.success(message.addStudent);
-        }
+           if(error.msg.non_field_errors)
+                alert.error(error.msg.non_field_errors.join());
+            }
 
+        if(message !== prevProps.message){
+           if(message.deleteStudent)
+             alert.success(message.deleteStudent);
+           if(message.addStudent)
+             alert.success(message.addStudent);
+           if(message.passwordNotMatch)
+             alert.error(message.passwordNotMatch);
         }
     }
 
