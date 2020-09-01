@@ -22,7 +22,7 @@ export class Register extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     const { username, email, password, password2 } = this.state;
-    if(password!==password2){
+    if(password !== password2){
         this.props.createMessage({ passwordNotMatch: 'Las contraseñas no coinciden' });
     } else {
         const newUser = {
@@ -30,6 +30,7 @@ export class Register extends Component {
             password,
             email
         }
+        this.props.register(newUser)
     }
   };
 

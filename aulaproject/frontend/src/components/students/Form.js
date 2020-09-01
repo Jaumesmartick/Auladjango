@@ -1,11 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addStudent } from '../../actions/students';
 
+import Select from 'react-select';
+
+// Generate random string
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+          });
+        }
 
 export class Form extends Component {
 
+    // keep select input selected values
+    schoolHandler = e => { this.setState({ school: e ? e.value : '' });};
+    gradeHandler = e => { this.setState({ grade: e ? e.value : '' });};
+
+    // define the 'local variables'
     state = {
         id: '',
         name: '',
@@ -16,15 +30,18 @@ export class Form extends Component {
         log_code: ''
     };
 
+    // define the 'local functions' from other modules ??
     static propTypes = {
         addStudent: PropTypes.func.isRequired
     };
 
+    // keep input in the field
     onChange = e => this.setState({ [e.target.name]: e.target.value });
+
 
     onSubmit = e => {
         e.preventDefault();
-        const { id, name, surname, school, grade, tutor, log_code } = this.state;
+        const  { id, name, surname, school, grade, tutor, log_code } = this.state;
         const student = { id, name, surname, school, grade, tutor, log_code };
         this.props.addStudent(student);
         this.setState({
@@ -40,7 +57,9 @@ export class Form extends Component {
 
     render(){
      const { id, name, surname, school, grade, tutor, log_code } = this.state;
-        return(
+     const schools = [ { value: '1', label: 'Pradolongo' }, { value: '2', label: 'Rafaela' }, { value: '3', label: 'Puerto Rico' } ]
+     const grades = [ { value: '1', label: '1ºP' }, { value: '2', label: '2ºP' }, { value: '3', label: '3ºP' } ]
+     return(
         <div className="card card-body mt-4 mb-4">
                 <h2>Añadir estudiante</h2>
                 <form onSubmit={this.onSubmit}>
@@ -76,14 +95,14 @@ export class Form extends Component {
                   </div>
                   <div className="form-group">
                     <label>Colegio</label>
-                    <textarea
-                      className="form-control"
-                      type="text"
-                      name="school"
-                      onChange={this.onChange}
-                      value={school}
-                    />
-                  </div> <div className="form-group">
+                    <Select
+                    options={schools}
+                    name="school"
+                    value={schools.find(item => item.value === school)}
+                    onChange={this.schoolHandler}
+                     />
+                  </div>
+                  <div className="form-group">
                     <label>Tutor</label>
                     <textarea
                       className="form-control"
@@ -95,13 +114,12 @@ export class Form extends Component {
                   </div>
                   <div className="form-group">
                     <label>Curso</label>
-                    <textarea
-                      className="form-control"
-                      type="text"
-                      name="grade"
-                      onChange={this.onChange}
-                      value={grade}
-                    />
+                    <Select
+                    options={grades}
+                    name="grade"
+                    value={grades.find(item => item.value === grade)}
+                    onChange={this.gradeHandler}
+                     />
                   </div><div className="form-group">
                     <label>Código</label>
                     <textarea
