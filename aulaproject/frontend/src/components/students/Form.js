@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addStudent } from '../../actions/students';
+import { getSchools } from '../../actions/schools';
 
 import Select from 'react-select';
 
@@ -32,7 +33,8 @@ export class Form extends Component {
 
     // define the 'local functions' from other modules ??
     static propTypes = {
-        addStudent: PropTypes.func.isRequired
+        addStudent: PropTypes.func.isRequired,
+        getSchools: PropTypes.func.isRequired
     };
 
     // keep input in the field
@@ -57,7 +59,7 @@ export class Form extends Component {
 
     render(){
      const { id, name, surname, school, grade, tutor, log_code } = this.state;
-     const schools = [ { value: '1', label: 'Pradolongo' }, { value: '2', label: 'Rafaela' }, { value: '3', label: 'Puerto Rico' } ]
+     const schools = this.props.getSchools;
      const grades = [ { value: '1', label: '1ºP' }, { value: '2', label: '2ºP' }, { value: '3', label: '3ºP' } ]
      return(
         <div className="card card-body mt-4 mb-4">
@@ -98,7 +100,7 @@ export class Form extends Component {
                     <Select
                     options={schools}
                     name="school"
-                    value={schools.find(item => item.value === school)}
+                    value={schools}
                     onChange={this.schoolHandler}
                      />
                   </div>

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'frontend',
     'knox',
-    'accounts'
+    'accounts',
+    'schools'
 ]
 
 REST_FRAMEWORK = {
