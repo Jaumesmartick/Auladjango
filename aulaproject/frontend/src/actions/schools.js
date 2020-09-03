@@ -5,12 +5,12 @@ import { tokenConfig } from './auth'
 
 
 // GET SCHOOLS
-export const getSchools = () => (dispatch, getState) => {
-    axios.get('/api/schools/', tokenConfig(getState)) //tokenConfig to access private routes
+export const getSchools = cod_postal => (dispatch, getState) => {
+    axios.get('/api/schools/', tokenConfig(getState), cod_postal) //tokenConfig to access private routes
         .then(res => {
             dispatch({
             type: GET_SCHOOLS,
-            payload: res.data
+            payload: res.data.nombre
             });
         })
         .catch(err => dispatch(returnErrors( err.response.data, err.response.status)));

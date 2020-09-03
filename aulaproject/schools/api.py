@@ -5,13 +5,17 @@ from .serializers import SchoolSerializer
 
 class SchoolViewSet(viewsets.ModelViewSet):
     permission_classes = [
-        permissions.IsAuthenticated
+        permissions.AllowAny
     ]
 
     serializer_class = SchoolSerializer
 
     def get_queryset(self):
-        return self.request.user.schools.all()
+        queryset = School.objects.all()
+        codigo_postal = self.request.query_params.get('codigo_postal', None)
+        if codigo_postal is not None:
+            queryset = queryset.filter(school__codigo_postal=codigo_postal)
+        return queryset
 
     # def perform_create(self, serializer):
     #     serializer.save()

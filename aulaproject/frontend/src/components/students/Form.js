@@ -28,11 +28,14 @@ export class Form extends Component {
         school: '',
         grade: '',
         tutor: '',
-        log_code: ''
+        log_code: '',
+        postalCode: '',
+        schools:[],
     };
 
     // define the 'local functions' from other modules ??
     static propTypes = {
+        schools: PropTypes.array.isRequired,
         addStudent: PropTypes.func.isRequired,
         getSchools: PropTypes.func.isRequired
     };
@@ -40,11 +43,24 @@ export class Form extends Component {
     // keep input in the field
     onChange = e => this.setState({ [e.target.name]: e.target.value });
 
+    onChangePostal = e => {
+         const postalCode = this.state.postalCode
+         this.setState({ [e.target.name]: e.target.value })
+            if(postalCode.length >= 4){
+                this.props.getSchools(e.target.value.toString());
+                console.log('ha leido los 5 caracteres')
+                console.log(this.state.schools)
+            } else {
+                console.log(`hay ${postalCode.length+1} caracteres ${e.target.value}`)
+            }
+    }
+
 
     onSubmit = e => {
         e.preventDefault();
-        const  { id, name, surname, school, grade, tutor, log_code } = this.state;
-        const student = { id, name, surname, school, grade, tutor, log_code };
+        const  { id, name, surname, school, grade, log_code} = this.state;
+        const tutor = this.props.user
+        const student = { id, name, surname, school, grade, tutor, log_code};
         this.props.addStudent(student);
         this.setState({
                     id: "",
@@ -53,13 +69,14 @@ export class Form extends Component {
                     school: "",
                     grade: "",
                     tutor: "",
-                    log_code: ""
+                    log_code: "",
+                    postalCode:""
         });
     }
 
     render(){
-     const { id, name, surname, school, grade, tutor, log_code } = this.state;
-     const schools = this.props.getSchools;
+     const { id, name, surname, school, grade, tutor, log_code, postalCode } = this.state;
+     const schools = this.props.schools;
      const grades = [ { value: '1', label: '1ºP' }, { value: '2', label: '2ºP' }, { value: '3', label: '3ºP' } ]
      return(
         <div className="card card-body mt-4 mb-4">
@@ -95,6 +112,17 @@ export class Form extends Component {
                       value={surname}
                     />
                   </div>
+                  <div className="form-group">
+                    <label>Codigo Postal</label>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="postalCode"
+                      onChange={this.onChangePostal}
+                      value={postalCode}
+                    />
+                  </div>
+                  <h1>{schools}</h1>
                   <div className="form-group">
                     <label>Colegio</label>
                     <Select
@@ -143,4 +171,9 @@ export class Form extends Component {
 }
 }
 
-export default connect(null, { addStudent })( Form );
+const mapStateToProps = state => ({
+    schools: state.schools
+});
+
+
+export default connect(mapStateToProps, { addStudent, getSchools })( Form );

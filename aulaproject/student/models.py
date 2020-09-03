@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Student(models.Model):
-    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
     school = models.IntegerField()
