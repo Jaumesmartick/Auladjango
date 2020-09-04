@@ -14,7 +14,7 @@ class SchoolViewSet(viewsets.ModelViewSet):
         queryset = School.objects.all()
         codigo_postal = self.request.query_params.get('codigo_postal', None)
         if codigo_postal is not None:
-            queryset = queryset.filter(school__codigo_postal=codigo_postal)
+            queryset = queryset.filter(codigo_postal=codigo_postal)
         return queryset
 
     # def perform_create(self, serializer):
