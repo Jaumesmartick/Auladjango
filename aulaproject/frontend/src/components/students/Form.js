@@ -25,7 +25,7 @@ export class Form extends Component {
         id: '',
         name: '',
         surname: '',
-        school: '',
+//        school: '',
         grade: '',
         tutor: '',
         log_code: '',
@@ -58,15 +58,14 @@ export class Form extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        const  { id, name, surname, school, grade, log_code} = this.state;
+        const  { id, name, surname,  grade, log_code} = this.state;
         const tutor = this.props.user
-        const student = { id, name, surname, school, grade, tutor, log_code};
+        const student = { id, name, surname,  grade, tutor, log_code};
         this.props.addStudent(student);
         this.setState({
                     id: "",
                     name: "",
                     surname: "",
-                    school: "",
                     grade: "",
                     tutor: "",
                     log_code: "",
@@ -75,9 +74,8 @@ export class Form extends Component {
     }
 
     render(){
-     const { id, name, surname, school, grade, tutor, log_code, postalCode } = this.state;
-     const schools = this.props.schools;
-     const grades = [ { value: '1', label: '1ºP' }, { value: '2', label: '2ºP' }, { value: '3', label: '3ºP' } ]
+     const { id, name, surname, grade, tutor, log_code, postalCode, schools } = this.state;
+     const grades = [ { value: '1', label: '1ºP' }, { value: '2', label: '2ºP' }, { value: '3', label: '3ºP' } ];
      return(
         <div className="card card-body mt-4 mb-4">
                 <h2>Añadir estudiante</h2>
@@ -122,14 +120,13 @@ export class Form extends Component {
                       value={postalCode}
                     />
                   </div>
-                  <h1>{schools}</h1>
                   <div className="form-group">
-                    <label>Colegio</label>
+                    <label>Colegios</label>
                     <Select
-                    options={schools}
+                    options={ this.props.schools.map((school) => [{value: school.id, label: school.nombre}])}
                     name="school"
-                    value={schools}
-                    onChange={this.schoolHandler}
+                    value={schools.find(item => item.value === schools)}
+                    onChange={this.gradeHandler}
                      />
                   </div>
                   <div className="form-group">
@@ -150,7 +147,8 @@ export class Form extends Component {
                     value={grades.find(item => item.value === grade)}
                     onChange={this.gradeHandler}
                      />
-                  </div><div className="form-group">
+                  </div>
+                  <div className="form-group">
                     <label>Código</label>
                     <textarea
                       className="form-control"
@@ -172,7 +170,7 @@ export class Form extends Component {
 }
 
 const mapStateToProps = state => ({
-    schools: state.schools
+    schools: state.schools.schools
 });
 
 

@@ -11,7 +11,7 @@ export const getSchools = cod_postal => (dispatch, getState) => {
             console.log(res);
             dispatch({
             type: GET_SCHOOLS,
-            payload: res.data.nombre
+            payload: res.data
             });
         })
         .catch(err => dispatch(returnErrors( err.response.data, err.response.status)));
