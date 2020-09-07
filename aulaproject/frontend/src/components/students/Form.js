@@ -57,8 +57,9 @@ export class Form extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        const  { name, surname,  grade, log_code, school} = this.state;
+        const  { name, surname,  grade, school} = this.state;
         const tutor = this.props.user
+        const log_code = uuidv4();
         const student = { name, surname,  grade, tutor, log_code, school};
         this.props.addStudent(student);
         this.setState({
@@ -126,16 +127,6 @@ export class Form extends Component {
                     value={grades.find(item => item.value === grade)}
                     onChange={this.gradeHandler}
                      />
-                  </div>
-                  <div className="form-group">
-                    <label>Código</label>
-                    <textarea
-                      className="form-control"
-                      type="text"
-                      name="log_code"
-                      onChange={this.onChange}
-                      value={log_code}
-                    />
                   </div>
                   <div className="form-group">
                     <button type="submit" className="btn btn-primary">
