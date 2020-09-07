@@ -22,7 +22,6 @@ export class Form extends Component {
 
     // define the 'local variables'
     state = {
-        id: '',
         name: '',
         surname: '',
 //        school: '',
@@ -30,7 +29,7 @@ export class Form extends Component {
         tutor: '',
         log_code: '',
         postalCode: '',
-        schools:[],
+        school:'',
     };
 
     // define the 'local functions' from other modules ??
@@ -58,12 +57,11 @@ export class Form extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        const  { id, name, surname,  grade, log_code} = this.state;
+        const  { name, surname,  grade, log_code, school} = this.state;
         const tutor = this.props.user
-        const student = { id, name, surname,  grade, tutor, log_code};
+        const student = { name, surname,  grade, tutor, log_code, school};
         this.props.addStudent(student);
         this.setState({
-                    id: "",
                     name: "",
                     surname: "",
                     grade: "",
@@ -74,22 +72,12 @@ export class Form extends Component {
     }
 
     render(){
-     const { id, name, surname, grade, tutor, log_code, postalCode, schools } = this.state;
+     const { name, surname, grade, log_code, postalCode, school } = this.state;
      const grades = [ { value: '1', label: '1ºP' }, { value: '2', label: '2ºP' }, { value: '3', label: '3ºP' } ];
      return(
         <div className="card card-body mt-4 mb-4">
                 <h2>Añadir estudiante</h2>
                 <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                    <label>ID</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="id"
-                      onChange={this.onChange}
-                      value={id}
-                    />
-                  </div>
                   <div className="form-group">
                     <label>Nombre</label>
                     <input
@@ -122,21 +110,12 @@ export class Form extends Component {
                   </div>
                   <div className="form-group">
                     <label>Colegios</label>
-                    <Select
-                    options={ this.props.schools.map((school) => [{value: school.id, label: school.nombre}])}
-                    name="school"
-                    value={schools.find(item => item.value === schools)}
-                    onChange={this.gradeHandler}
-                     />
-                  </div>
-                  <div className="form-group">
-                    <label>Tutor</label>
                     <textarea
                       className="form-control"
                       type="text"
-                      name="tutor"
+                      name="school"
                       onChange={this.onChange}
-                      value={tutor}
+                      value={school}
                     />
                   </div>
                   <div className="form-group">
