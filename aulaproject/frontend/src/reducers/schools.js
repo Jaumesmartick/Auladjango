@@ -1,7 +1,8 @@
-import { GET_SCHOOLS } from "../actions/types.js";
+import { GET_SCHOOLS, GET_GRADES } from "../actions/types.js";
 
 const initialState = {
-    schools: []
+    schools: [],
+    grades: []
 }
 
 export default function(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 schools: action.payload
+            };
+        case GET_GRADES:
+            return {
+                ...state,
+                grades: action.payload
             };
         default:
             return state;

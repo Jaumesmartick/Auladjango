@@ -12,3 +12,6 @@ class School(models.Model):
     direccion = models.CharField(max_length=80)
     codigo_postal = models.IntegerField()
     telefono = models.IntegerField()
+
+class Grade(models.Model):
+    name = models.CharField(max_length=80)

@@ -1,6 +1,6 @@
-from .models import School
+from .models import School, Grade
 from rest_framework import viewsets, permissions
-from .serializers import SchoolSerializer
+from .serializers import SchoolSerializer, GradeSerializer
 
 
 class SchoolViewSet(viewsets.ModelViewSet):
@@ -20,3 +20,14 @@ class SchoolViewSet(viewsets.ModelViewSet):
     # def perform_create(self, serializer):
     #     serializer.save()
     # en el caso que necesitemos crear colegios desde la api
+
+class GradeViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    serializer_class = GradeSerializer
+
+    def get_queryset(self):
+        queryset = Grade.objects.all()
+        return queryset
