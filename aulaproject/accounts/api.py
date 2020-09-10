@@ -1,7 +1,8 @@
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
 
 # Register API
@@ -13,13 +14,18 @@ class RegisterAPI(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         user.is_active = False
-        email = EmailMessage(
-            'Activate your account',
-            'Body goes here',
-            'jaume.fabregat@smartick.com',
-            ['jaume.fabregat.97@gmail.com'],
+
+        # Acceso de aplicaciones poco seguras (configuración gmail)
+        msg_html = render_to_string('validate.html')
+        send_mail(
+            'Confirmar Registro de Usuario',
+            'Por favor, acceda al link que se presenta a continuación para confirmar el registro de la cuenta. /n'
+            'https://localhost:8000',
+            'jaume.fabregat.97@gmail.com',
+            [user.email],
+            fail_silently=False,
+            html_message=msg_html
         )
-        email.send(fail_silently=False)
         _, token = AuthToken.objects.create(user)
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
