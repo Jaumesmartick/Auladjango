@@ -10,7 +10,8 @@ export class Register extends Component {
     username: '',
     email: '',
     password: '',
-    password2: '',
+    password2: ''
+
   };
 
    static propTypes = {
@@ -21,14 +22,15 @@ export class Register extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { username, email, password, password2 } = this.state;
+    const { email, password, password2 } = this.state;
     if(password !== password2){
         this.props.createMessage({ passwordNotMatch: 'Las contraseñas no coinciden' });
     } else {
         const newUser = {
-            username,
+            username: email,
             password,
-            email
+            email,
+
         }
         this.props.register(newUser)
     }
