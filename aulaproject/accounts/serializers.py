@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from accounts.models import ValidateUser
 
 # User Serializer
 class UserSerializer(serializers.ModelSerializer):
@@ -33,3 +34,7 @@ class LoginSerializer(serializers.Serializer):
         raise serializers.ValidationError("Credenciales incorrectos!")
 
 
+class ValidationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ValidateUser
+        fields = ('id', 'username', 'email', 'isValidated')

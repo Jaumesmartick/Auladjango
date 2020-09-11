@@ -24,7 +24,6 @@ export class Form extends Component {
     state = {
         name: '',
         surname: '',
-//        school: '',
         grade: '',
         tutor: '',
         log_code: '',
@@ -85,6 +84,7 @@ export class Form extends Component {
                       className="form-control"
                       type="text"
                       name="name"
+                      placeholder="Nombre..."
                       onChange={this.onChange}
                       value={name}
                     />
@@ -95,6 +95,7 @@ export class Form extends Component {
                       className="form-control"
                       type="text"
                       name="surname"
+                      placeholder="Apellido..."
                       onChange={this.onChange}
                       value={surname}
                     />
@@ -105,6 +106,7 @@ export class Form extends Component {
                       className="form-control"
                       type="text"
                       name="postalCode"
+                      placeholder="Código Postal..."
                       onChange={this.onChangePostal}
                       value={postalCode}
                     />

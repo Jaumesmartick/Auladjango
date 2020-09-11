@@ -3,7 +3,10 @@ from rest_framework.response import Response
 from knox.models import AuthToken
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
+from rest_framework.views import APIView
+
+from .models import ValidateUser
+from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, ValidationSerializer
 
 # Register API
 class RegisterAPI(generics.GenericAPIView):
@@ -14,19 +17,19 @@ class RegisterAPI(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         user.is_active = False
+        _, token = AuthToken.objects.create(user)
 
         # Acceso de aplicaciones poco seguras (configuración gmail)
-        msg_html = render_to_string('validate.html')
+        urlValidate = "http://localhost:8000/#/validate/%s" % token
+        msg_html = render_to_string('validate.html', {'url': urlValidate})
         send_mail(
             'Confirmar Registro de Usuario',
-            'Por favor, acceda al link que se presenta a continuación para confirmar el registro de la cuenta. /n'
-            'https://localhost:8000',
+            '',
             'jaume.fabregat.97@gmail.com',
             [user.email],
             fail_silently=False,
             html_message=msg_html
         )
-        _, token = AuthToken.objects.create(user)
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "token": token
@@ -55,4 +58,23 @@ class UserAPI(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+# Validation API
+class ValidateAPI(APIView):
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    serializer_class = ValidationSerializer
+
+    def get(self, request, format=None):
+        print("ENTRA")
+        queryset = ValidateUser.objects.all()
+        is_validated = self.request.query_params.get('isValidated', None)
+        print("ENTRA2")
+        if is_validated is not None:
+            queryset = queryset.filter(isValidated=is_validated)
+            print(queryset)
+        return Response({'isValidated': True})
 

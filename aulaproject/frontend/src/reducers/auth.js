@@ -6,14 +6,16 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     REGISTER_SUCCESS,
-    REGISTER_FAIL
+    REGISTER_FAIL,
+    VALIDATE_USER
 } from '../actions/types'
 
 const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
     isLoading: false,
-    user: null
+    user: null,
+    isValidated: false
 }
 
 export default function(state = initialState, action) {
@@ -51,7 +53,11 @@ export default function(state = initialState, action) {
                 isAuthenticated: false,
                 user: null
             };
-
+        case VALIDATE_USER:
+            return {
+                ...state,
+                isValidated: true
+            }
         default:
             return state;
     }

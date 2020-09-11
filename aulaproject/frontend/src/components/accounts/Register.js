@@ -20,9 +20,10 @@ export class Register extends Component {
   }
 
 
+
   onSubmit = (e) => {
     e.preventDefault();
-    const { email, password, password2 } = this.state;
+    const { email, password, password2, isValidated } = this.state;
     if(password !== password2){
         this.props.createMessage({ passwordNotMatch: 'Las contraseñas no coinciden' });
     } else {
@@ -30,7 +31,7 @@ export class Register extends Component {
             username: email,
             password,
             email,
-
+            isValidated
         }
         this.props.register(newUser)
     }
@@ -43,28 +44,19 @@ export class Register extends Component {
         return <Redirect to="/" />;
     }
 
-    const { username, email, password, password2 } = this.state
+    const { email, password, password2 } = this.state
     return (
       <div className="col-md-6 m-auto">
         <div className="card card-body mt-5">
           <h2 className="text-center">Register</h2>
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
-              <label>Usuario</label>
-              <input
-                type="text"
-                className="form-control"
-                name="username"
-                onChange={this.onChange}
-                value={username}
-              />
-            </div>
-            <div className="form-group">
               <label>Email</label>
               <input
                 type="email"
                 className="form-control"
                 name="email"
+                placeholder="Email..."
                 onChange={this.onChange}
                 value={email}
               />
@@ -75,6 +67,7 @@ export class Register extends Component {
                 type="password"
                 className="form-control"
                 name="password"
+                placeholder="Constraseña..."
                 onChange={this.onChange}
                 value={password}
               />
@@ -85,6 +78,7 @@ export class Register extends Component {
                 type="password"
                 className="form-control"
                 name="password2"
+                placeholder="Confirmar constraseña..."
                 onChange={this.onChange}
                 value={password2}
               />

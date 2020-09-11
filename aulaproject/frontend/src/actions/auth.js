@@ -9,7 +9,8 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     REGISTER_FAIL,
-    REGISTER_SUCCESS
+    REGISTER_SUCCESS,
+    VALIDATE_USER
 } from './types';
 
 // CHECK TOKEN & LOAD USER
@@ -63,7 +64,7 @@ export const login = (username, password) => dispatch => {
 
 
 // REGISTER USER
-export const register = ({ username, password, email }) => dispatch => {
+export const register = ({ username, password, email, isValidated }) => dispatch => {
 
     // Headers
     const config = {
@@ -73,7 +74,7 @@ export const register = ({ username, password, email }) => dispatch => {
     };
 
     // Request Body
-    const body = JSON.stringify({ username, password, email });
+    const body = JSON.stringify({ username, password, email, isValidated });
 
 
     axios.post('/api/auth/register', body,  config)
@@ -124,3 +125,17 @@ export const tokenConfig = getState => {
 
     return config;
 }
+
+// Validate User
+export const validateUser = (isValidated) => (dispatch, getState) => {
+
+    axios.get('/api/auth/validate', {params: {isValidated:isValidated}}, tokenConfig(getState))
+    .then(res => {
+        dispatch({
+            type: VALIDATE_USER,
+            payload: res.data
+        });
+    }).catch(err => {
+        dispatch(returnErrors(err.response.data, err.response.status));
+    });
+};
